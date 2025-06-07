@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link real="stylesheet" href="{% static 'static.css' %} ">
+    <title>Category</title>
+</head>
+<body>
+    <h1>Category</h1>
+    <div class="form">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="cat_name">Cat_name</label>
+            <input type="text" name="cat_name" placeholder="enter the Category name" required><br></br>
+            <label for="image">Upload image</label>
+            <input type="file" name="Cat_image"/><br></br>
+            <input type="submit" value="create">
+
+        </form>
+    </div>
+    
+</body>
+</html>
+
+<!-- return HttpResponseRedirect(f'/products_list_page/{subcategory_id}') -->

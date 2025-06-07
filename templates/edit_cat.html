@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>edit_Category</title>
+</head>
+<body>
+    <header>
+        <h1>Edit Category:'{{category.name}}'</h1>
+    </header>
+    <div class="container">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="cat_name">Category_name</label>
+            <input type="text" name="cat_name" value="{{category_name}}"required><br></br>
+            <label for="cat_image">Upload new image</label>
+            <input type="file" name="cat_image"><br></br>
+            <button type="submit">save change</button>
+        </form>
+    </div>
+</body>
+</html>

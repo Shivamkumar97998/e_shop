@@ -1,0 +1,63 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'static.css' %}">
+    <title>Products in {{ subcategory.name }}</title>
+</head>
+<body>
+    <header>
+        <h2>Products in {{ subcategory.name }}</h2>
+    </header>
+
+    {% if user.profile.is_vendor %}
+    <div class="create_product">
+        <a href="/create_product/{{ subcategory.id }}" class="create_product-btn">Create Product</a>
+        </div>
+    {% endif %}
+    
+    {% if products %}
+        <div class="product-list">
+            {% for product in products %}
+                <div class="product-item">
+                    <a href="/product_detail/{{ product.id }}" class="product-item-link">
+                        <h2 class="product-name">{{ product.product_name }}</h2>
+                        <!-- <p class="product-price">Rs.{{ product.product_price }}</p>
+                        <p class="product-description">{{ product.product_description }}</p> -->
+
+                        {% if product.images.all %}
+                            <div class="product-image">
+                                <img src="{{ product.images.first.image.url }}" alt="{{ product.product_name }}">
+                            </div>
+                        {% else %}
+                            <p>No images available.</p>
+                        {% endif %}
+                    </a>
+                    <div class="product-actions">
+                        {% if user.profile.is_vendor %}
+                            <a href="/edit-product/{{ product.id }}" class="edit-button">Edit</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        
+   
+
+    {% else %}
+        <p>No products found in this subcategory.</p>
+    {% endif %}
+
+</body>
+</html>
+
+
+ 
+               
+    
+ 

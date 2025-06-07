@@ -1,0 +1,29 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>search result</h1>
+    <div>
+        {% if products %}
+            <h2>Result for "{{query}}" </h2>
+            <ul>
+                {% for produuct in products %}
+                <li>
+                    <a href="/product_detail/"{{product.id}}>
+
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h2>no product found for "{{query}}". </h2>  
+        {% endif %}      
+    </div>
+</body>
+</html>

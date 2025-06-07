@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link real="stylesheet" href="{% static 'static.css' %} ">
+    <title>create subcategory</title>
+</head>
+<body>
+    <div class="form">
+        <h1>Create Subcategory for "{{category.name}}" </h1>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="category_name">subcategory name</label>
+            <input type="text" name="category_name" placeholder="enter the subcategory_name" required><br></br>
+            <label for="subcategory_image">Upload image</label>
+            <input type="file" name="subcategory_image"><br></br>
+            <input type="submit" value="create subcategory">
+        </form>
+    </div>
+
+</body>
+</html>
