@@ -37,7 +37,7 @@ urlpatterns = [
     #product page
     path("create_product/<int:subcategory_id>/",create_product,name="create_product"),
     path("products_list_page/<int:subcategory_id>/",product_list_page),
-    path("product_detail/<int:product_id>/",product_detail),
+    path("product_detail/<int:product_id>/",product_detail,name="product_detail"),
 
     
 
@@ -49,7 +49,7 @@ urlpatterns = [
     path('order/', proceed_order, name="proceed_order"),
     path("buy-now/<int:product_id>/",Buy_Now,name="buy-now"),
     path("order/confirmation/<int:order_id>/",order_confirmation,name="order_confirmation"),
-    path("product/<int:product_id>/add_review/",add_review),
+    path("product/<int:product_id>/add_review/",add_review,name="add_review"),
 
 
     #get profile

@@ -303,27 +303,39 @@ def Buy_Now(request, product_id):
         'is_buy_now': True  
     })
 
-def add_review(request,product_id):
-    if request.method=='POST':
-        product=get_object_or_404(Product,id=product_id)
-        rating=request.POST.get("rating")
-        review_text=request.POST.get("review_text")
+def add_review(request, product_id):
+    if request.method == 'POST':
+        
+        product = get_object_or_404(Product, id=product_id)
 
-        if rating is None or not rating.isdigit() or int(rating) not in range(1,6):
-            return HttpResponse("invalid rating")
-        if not review_text or len(review_text.strip())==0:
-            return HttpResponse("review not available")
-        review=Review(
+        rating = request.POST.get('rating')
+        review_text = request.POST.get("review_text")
+
+       
+        if rating is None or not rating.isdigit() or int(rating) not in range(1, 6):
+            return HttpResponse("Invalid rating.")
+
+       
+        if not review_text or len(review_text.strip()) == 0:
+            return HttpResponse("Review not availaible")
+
+      
+        review = Review(
             product=product,
             user=request.user,
             rating=int(rating),
-            review_text=review_text,
-
-        )
+            review_text=review_text )
         review.save()
-        return redirect("product_detail",product_id=product.id)
-    product=get_object_or_404(Product,id=product_id)
-    return render(request,"add_review.html",{'product':product})
+        
+        
+        return redirect('product_detail', product_id=product.id)
+
+   
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, "add_review.html", {'product': product})
+
+
+
 
 
 
