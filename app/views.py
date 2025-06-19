@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect, HttpResponseRedirect,get_object_or_404
 from django.http import HttpResponse
-from .models import Category,SubCategory,Product,ProductImage,Profile,AddToCart,Order
+from .models import Category,SubCategory,Product,ProductImage,Profile,AddToCart,Order,Review
 from django.db.models import Q
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
@@ -45,13 +45,15 @@ def sub_category(request,id):
     
     category_instance = get_object_or_404(Category,id=id)
     subcategories = SubCategory.objects.filter(category=category_instance)
+    print(subcategories)
     return render(request,"subcategory.html",{"category":category_instance,"subcategories":subcategories})
 
 def create_subcategory(request,id):
     Category_instance= Category.objects.get(id=id)
     if request.method=='POST':
         category_name=request.POST.get('category_name')
-        category_image=request.FILES.get("category_images")
+        category_image = request.FILES.get("subcategory_image")  
+        # category_image=request.FILES.get("subcategory_images")
 
         sub_category_instance = SubCategory.objects.create(
             category=Category_instance,
@@ -75,7 +77,7 @@ def edit_sub_cat(request,subcategory_id):
             subcategory.image.delete()
         subcategory.save()
         return redirect("/")
-    categories=category.objects.all()
+    categories=Category.objects.all()
     return render(request,"edit_Sub_category.html",{"subcategory":subcategory,"categories":categories})           
 
 def product_list_page(request,subcategory_id):
@@ -163,7 +165,7 @@ def createuser(request):
         user.save()
         profile_instance=Profile.objects.create(phone_no=phone_number,is_vendor=is_vendor,user=user)
         profile_instance.save()
-        return redirect("homepage")
+        return redirect("/")
     return render(request,"createuser.html")
 
 def userlogin(request):
@@ -259,13 +261,11 @@ def order_confirmation(request,order_id):
     return render(request,"order_Confirmation.html",{'order':order,'total_price':total_price,'delivery_date':order.delivery_date})
    
 
-
-
 def Buy_Now(request, product_id):
     if not request.user.is_authenticated:
         return redirect('userlogin')
 
-    product = get_object_or_404(Product,id=product_id)
+    product = get_object_or_404(Product, id=product_id)
 
     if product.stock <= 0:
         return HttpResponse("This product is out of stock.")
@@ -278,6 +278,7 @@ def Buy_Now(request, product_id):
         shipping_address = request.POST.get('shipping_address')
         payment_method = request.POST.get('payment_method')
         delivery_date = request.POST.get('delivery_date')
+        # delivery_date = request.POST.get('delivery_date', timezone.now() + timezone.timedelta(days=7))
 
         
         order = Order.objects.create(
@@ -295,18 +296,38 @@ def Buy_Now(request, product_id):
         product.stock -= quantity
         product.save()
 
-        return HttpResponseRedirect('order_confirmation')
+        return redirect('order_confirmation', order_id=order.id)
 
     return render(request, 'proceed_order.html', {
         'product': product,
         'is_buy_now': True  
     })
 
+def add_review(request,product_id):
+    if request.method=='POST':
+        product=get_object_or_404(Product,id=product_id)
+        rating=request.POST.get("rating")
+        review_text=request.POST.get("review_text")
+
+        if rating is None or not rating.isdigit() or int(rating) not in range(1,6):
+            return HttpResponse("invalid rating")
+        if not review_text or len(review_text.strip())==0:
+            return HttpResponse("review not available")
+        review=Review(
+            product=product,
+            user=request.user,
+            rating=int(rating),
+            review_text=review_text,
+
+        )
+        review.save()
+        return redirect("product_detail",product_id=product.id)
+    product=get_object_or_404(Product,id=product_id)
+    return render(request,"add_review.html",{'product':product})
 
 
 
-
-
+            
 
 
 

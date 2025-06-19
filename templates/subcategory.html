@@ -1,9 +1,13 @@
 
+
+
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'static.css' %}">
     <title>Subcategories of {{ category.name }}</title>
 </head>
 <body>
@@ -39,14 +43,12 @@
                         
                         
                     {% else %}
-                        <p>No imagess available</p>
+                        <p>No image available</p>
                     {% endif %}
                 </div>
                 {% if user.profile.is_vendor %}
-                   <a href="/edit_sub_cat/{{ subcategory.id }}">Edit Category</a>
-                   <a href="/subcategory/delete/{{ subcategory.id }}">Delete category</a>
-                   <a href="/create_product/{{ subcategory.id }}">create-product</a>
-                   
+                   <!-- <a href="/edit_sub_cat/{{ subcategory.id }}">Edit Category</a> -->
+                   <!-- <a href="/subcategory/delete/{{ subcategory.id }}">Delete category</a> -->
                 {% endif %}   
                
             </div>
